@@ -10,6 +10,6 @@ def initial(String remoteHost){
             allowAnyHosts: true,
         ]
                 
-        env.REMOTE_HOST_JSON = groovy.json.JsonOutput.toJson(remoteHost);
+        return remoteHost;
     }  
 }
