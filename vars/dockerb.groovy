@@ -13,3 +13,8 @@ def initial(String remoteHost){
         return remoteHost;
     }  
 }
+
+def dockerpull(Maps params){
+    def remoteHost = initial(params.remoteHost);
+    sshCommand remote: remoteHost, command: "docker pull ${params.nameImagen}";
+}
