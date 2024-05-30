@@ -6,7 +6,7 @@ def initial(String remoteHost){
                         
             remote["name"] = "pipe"
             remote["host"] = remoteHost
-            remote["user:"] = "${sshUser}"
+            remote["user"] = "${sshUser}"
             remote["password"] = "${sshpass}"
             remote["allowAnyHosts"] =  true
 
