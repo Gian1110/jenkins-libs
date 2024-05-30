@@ -4,11 +4,11 @@ def initial(String remoteHost){
 
     withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
-            remote["name"] = "pipe",
-            remote["host"] = remoteHost,
-            remote["user:"] = "${sshUser}",
-            remote["password"] = "${sshpass}",
-            remote["allowAnyHosts"] =  true,
+            remote["name"] = "pipe"
+            remote["host"] = remoteHost
+            remote["user:"] = "${sshUser}"
+            remote["password"] = "${sshpass}"
+            remote["allowAnyHosts"] =  true
 
     }  
     return remote;
