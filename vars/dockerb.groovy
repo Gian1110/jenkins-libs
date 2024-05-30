@@ -14,9 +14,9 @@ def initial(String remoteHost){
     }  
 }
 
-def dockerpull(Maps params){
+def dockerpull(Map params){
     def remoteHost = initial(params.remoteHost);
     echo "${remoteHost}"
-    sshCommand remote: remoteHost, command: "docker pull ${params.nameImagen}";
+    sshCommand remote: "${remoteHost}", command: "docker pull ${params.nameImagen}";
     return params;
 }
