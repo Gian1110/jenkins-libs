@@ -1,17 +1,17 @@
 def initial(String remoteHost){
     def sshId = ConfigJenkins.getSshCredentialId();
-    def remote = [:]
-
     withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
-                        
-            remote["name"] = "pipe"
-            remote["host"] = remoteHost
-            remote["user"] = "${sshUser}"
-            remote["password"] = "${sshpass}"
-            remote["allowAnyHosts"] =  true
+    
+        remoteH = [
+        name: "pipe",
+        host: remoteHost,
+        user: "${sshUser}",
+        password: "${sshpass}",
+        allowAnyHosts: true
+        ]
 
-    }  
-    return remote;
+    } 
+    return remoteH;
 }
 
 def dockerpull(Map params){
