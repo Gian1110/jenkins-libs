@@ -1,6 +1,5 @@
 def initial(String remoteHost){
     def sshId = ConfigJenkins.getSshCredentialId();
-    echo "${sshId}"
     withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
     
         remoteH = [
@@ -11,14 +10,22 @@ def initial(String remoteHost){
         allowAnyHosts: true
         ]
 
-    }
-    echo "en la funcion ${remoteH}" 
+    } 
     return remoteH;
 }
 
-def dockerpull(Map params){
+def dockerPull(Map params){
     def remoteH = initial(params.remoteHost);
     sshCommand remote: remoteH, command: "docker pull ${params.nameImagen}"
 
 }
-//
+
+def dockerStopRm(Map params) {
+    def remoteH = initial(params.remoteHost);
+    def DOCKER_EXIST = sshCommand remote: remoteH, command: "docker ps -a -q --filter name=${params.nameContainer}"
+
+    if (DOCKER_EXIST != ''){
+        sshCommand remote: remoteH, command: "docker rm -f ${params.container}"
+    }               
+    
+}
