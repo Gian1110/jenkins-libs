@@ -29,7 +29,8 @@ def dockerpull(Map params){
             remote["allowAnyHosts"] =  true
 
     }
-    echo "${remote}"  
-    sshCommand remote: "${remote}", command: "docker pull ${params.nameImagen}"
+    
+    sshCommand remote: "${remote}", command: "docker ps" 
     return params;
 }
+//docker pull ${params.nameImagen}
