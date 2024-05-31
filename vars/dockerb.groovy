@@ -1,5 +1,6 @@
 def initial(String remoteHost){
     def sshId = ConfigJenkins.getSshCredentialId();
+    echo "${sshId}"
     withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
     
         remoteH = [
@@ -10,7 +11,8 @@ def initial(String remoteHost){
         allowAnyHosts: true
         ]
 
-    } 
+    }
+    echo "en la funcion ${remoteH}" 
     return remoteH;
 }
 
