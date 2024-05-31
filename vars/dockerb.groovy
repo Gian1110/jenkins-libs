@@ -22,15 +22,15 @@ def dockerpull(Map params){
 
     withCredentials([usernamePassword(credentialsId: sshId, usernameVariable: 'sshUser', passwordVariable: 'sshpass')]){
                         
-            remote["name"] = "pipe"
-            remote["host"] = params.remoteHost
-            remote["user"] = "${sshUser}"
-            remote["password"] = "${sshpass}"
-            remote["allowAnyHosts"] =  true
-
+            remote["name" : "pipe",
+            "host":"${params.remoteHost}",
+            "user" : "${sshUser}",
+            "password" : "${sshpass}",
+            "allowAnyHosts" :  true] 
+            sshCommand remote: "${remote}", command: "docker ps"
     }
     
-    sshCommand remote: "${remote}", command: "docker ps" 
+     
     return params;
 }
 //docker pull ${params.nameImagen}
