@@ -12,7 +12,6 @@ public class ConfigJenkins {
 
     public static String getImagenRegistry(String nameContainer,String versionImagen)
         def output = "$registryURL/$nameContainer:$versionImagen"
-        echo "$output"
         return output;
 
 }
