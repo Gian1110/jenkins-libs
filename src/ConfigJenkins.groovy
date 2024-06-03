@@ -1,5 +1,5 @@
 public class ConfigJenkins {
-    private static String registryURL = "192.168.100.173:5000";
+    private static String registryURL = '192.168.100.173:5000';
     private static String sshCredentialId = "ssh-id";
 
     public static String getRegistryURL(){
@@ -11,6 +11,6 @@ public class ConfigJenkins {
     }
 
     public static String getImagenRegistry(String nameContainer,String versionImagen){
-        return registryURL+"/"+nameContainer+":"+versionImagen;
+        return "$registryURL/$nameContainer:$versionImagen".toString();
     }
 }
