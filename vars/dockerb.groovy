@@ -25,7 +25,7 @@ def dockerStopRm(Map params) {
     def DOCKER_EXIST = sshCommand remote: remoteH, command: "docker ps -a -q --filter name=${params.nameContainer}"
 
     if (DOCKER_EXIST != ''){
-        sshCommand remote: remoteH, command: "docker rm -f ${params.container}"
+        sshCommand remote: remoteH, command: "docker rm -f ${params.nameContainer}"
     }               
     
 }
