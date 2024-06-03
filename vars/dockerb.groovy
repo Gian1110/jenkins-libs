@@ -14,9 +14,20 @@ def initial(String remoteHost){
     return remoteH;
 }
 
+def dockerBuildandPush(Map params){
+
+    dir (params.path){
+        sh """
+        docker build -t ${params.nameImagen} .
+        """
+    }
+    
+}
+
 def dockerPull(Map params){
+    def nameImagen=ConfigJenkins.getDockerImage(params.nameContainer,params.versionImagen)
     def remoteH = initial(params.remoteHost);
-    sshCommand remote: remoteH, command: "docker pull ${params.nameImagen}"
+    sshCommand remote: remoteH, command: "docker pull ${nameImagen}"
 
 }
 

@@ -5,8 +5,12 @@ public class ConfigJenkins {
     public static String getRegistryURL(){
         return registryURL;
     }
+
     public static String getSshCredentialId(){
         return sshCredentialId;
     }
+
+    public static String getImagenRegistry(String nameContainer,String versionImagen)
+        return registryURL + "/" + nameContainer + ":" + versionImagen
 
 }
