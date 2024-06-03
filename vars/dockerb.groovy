@@ -26,7 +26,6 @@ def dockerBuildandPush(Map params){
 
 def dockerPull(Map params){
     def nameImagen = ConfigJenkins.getImagenRegistry(params.nameContainer,params.versionImagen)
-    echo "${nameImagen}"
     def remoteH = initial(params.remoteHost);
     sshCommand remote: remoteH, command: "docker pull ${nameImagen}"
 
