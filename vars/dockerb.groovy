@@ -32,10 +32,11 @@ def dockerPull(Map params){
 
 def dockerRmRun(Map params) {
     def remoteH = initial(params.remoteHost);
-    def DOCKER_EXIST = sshCommand remote: remoteH, command: "docker ps -a -q --filter name=${params.nameContainer}"
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    def DOCKER_EXIST = sshCommand remote: remoteH, command: "docker ps -a -q --filter name=${params.containerName}"
 
     if (DOCKER_EXIST != ''){
-        sshCommand remote: remoteH, command: "docker rm -f ${params.nameContainer}"
+        sshCommand remote: remoteH, command: "docker rm -f ${params.containerName}"
     }               
-    sshCommand remote: remoteH, command: "docker run -d -p ${params.puertoContainer}:${params.puertoContainer} --name ${params.nameContainer} ${params.nameImagen}"
+    sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
 }
