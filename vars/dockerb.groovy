@@ -17,9 +17,9 @@ def initial(String remoteHost){
 
 
 def dockerPull(Map params){
-    def nameImagen = ConfigJenkins.getImagenRegistry(params.nameContainer,params.versionImagen)
+   
     def remoteH = initial(params.remoteHost);
-    sshCommand remote: remoteH, command: "docker pull ${nameImagen}"
+    sshCommand remote: remoteH, command: "docker pull ${params.nameImagen}"
 
 }
 
