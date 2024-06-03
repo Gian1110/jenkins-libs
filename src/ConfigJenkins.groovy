@@ -5,7 +5,7 @@ public class ConfigJenkins {
     public static String getRegistryURL(){
         return registryURL;
     }
-
+    
     public static String getSshCredentialId(){
         return sshCredentialId;
     }
