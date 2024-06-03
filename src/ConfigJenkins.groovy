@@ -10,8 +10,4 @@ public class ConfigJenkins {
         return sshCredentialId;
     }
 
-    // public static String getImagenRegistry(String nameContainer,String versionImagen){
-    //     return registryURL + "/" + nameContainer + ":" + versionImagen ;
-    // }
-
 }
