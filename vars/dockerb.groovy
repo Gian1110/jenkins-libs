@@ -14,10 +14,17 @@ def initial(String remoteHost){
     return remoteH;
 }
 
+def dockerBuildPush(Map params){
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    sh ''' 
+                    docker build -t ${nameImage} dockerweb-multiserver/
+                    docker push ${nameImage}
+                    docker rmi ${nameImage}
+                    '''
+}
 
 def dockerPull(Map params){
-    def imagenName = "i" + params.ContainerName
-    def nameImage = ConfigJenkins.getImagenRegistry(imagenName,params.imagenVersion);
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
     def remoteH = initial(params.remoteHost);
     sshCommand remote: remoteH, command: "docker pull ${nameImage}"
 
