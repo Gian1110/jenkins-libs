@@ -19,11 +19,10 @@ def dockerBuildPush(Map params){
     dir ("./dockerweb-multiserver") {
         sh " docker build -t ${nameImage} ."
     }
-    sh ''' 
-                   
-                    docker push ${nameImage}
-                    docker rmi ${nameImage}
-                    '''
+    sh """
+        docker push ${nameImage}
+        docker rmi ${nameImage}
+      """                     
 }
 
 def dockerPull(Map params){
