@@ -14,15 +14,7 @@ def initial(String remoteHost){
     return remoteH;
 }
 
-def dockerBuildandPush(Map params){
 
-    dir (params.path){
-        sh """
-        docker build -t ${params.nameImagen} .
-        """
-    }
-    
-}
 
 def dockerPull(Map params){
     def nameImagen = ConfigJenkins.getImagenRegistry(params.nameContainer,params.versionImagen)
