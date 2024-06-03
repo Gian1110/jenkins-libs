@@ -29,3 +29,9 @@ def dockerStopRm(Map params) {
     }               
     
 }
+
+def dockerRun(Map params) {
+    def remoteH = initial(params.remoteHost);
+    sshCommand remote: remoteH, command: "docker run -d -p ${params.puertoContainer}:${params.puertoContainer} --name ${params.nameContainer} ${params.nameImagen}"              
+    
+}
