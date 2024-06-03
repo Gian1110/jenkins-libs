@@ -16,7 +16,8 @@ def initial(String remoteHost){
 
 
 def dockerPull(Map params){
-    String nameImage = ConfigJenkins.getImagenRegistry("iproyecto-qa","latest");
+    def imagenName = "i" + params.ContainerName
+    def nameImage = ConfigJenkins.getImagenRegistry(imagenName,params.imagenVersion);
     def remoteH = initial(params.remoteHost);
     sshCommand remote: remoteH, command: "docker pull ${nameImage}"
 
