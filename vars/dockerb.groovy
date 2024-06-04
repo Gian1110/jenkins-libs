@@ -16,7 +16,7 @@ def initial(String remoteHost){
 
 def dockerBuildPush(Map params){
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-    dir ("./dockerweb-multiserver") {
+    dir (params.path) {
         sh " docker build -t ${nameImage} ."
     }
     sh """
