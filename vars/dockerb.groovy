@@ -40,7 +40,7 @@ def dockerRmRun(Map params) {
     if (DOCKER_EXIST != ''){
         sshCommand remote: remoteH, command: "docker rm -f ${params.containerName}"
     }               
-    sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage} --env-file ${pathenv}"
+    sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
 }
 
 def checkoutBranch(Map params) {
