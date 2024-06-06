@@ -40,5 +40,17 @@ def dockerRmRun(Map params) {
     if (DOCKER_EXIST != ''){
         sshCommand remote: remoteH, command: "docker rm -f ${params.containerName}"
     }               
-    sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
+    sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage} --env-file ${pathenv}"
+}
+
+def checkoutBranch(Map params) {
+    def releaseBranch = params.release_version
+    checkout([$class: 'GitSCM', 
+                branches: [[name: releaseBranch]], 
+                doGenerateSubmoduleConfigurations: false, 
+                extensions: [], 
+                userRemoteConfigs: [[
+                    url: scm.getUserRemoteConfigs()[0].getUrl()
+                ]]
+    ])
 }
