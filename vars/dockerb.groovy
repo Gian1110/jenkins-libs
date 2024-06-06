@@ -55,3 +55,11 @@ def dockerRmRun(Map params) {
     }               
     sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
 }
+
+def callJob(Map params) {
+
+    build job: "${params.jobName}", parameters: [
+              string(name: "remoteHost", value: "${params.remoteHost}"),
+              string(name: "imagenVersion", value:"${params.imageVersion}")
+            ]
+}
