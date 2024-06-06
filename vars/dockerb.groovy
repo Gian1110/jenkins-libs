@@ -59,7 +59,7 @@ def dockerRmRun(Map params) {
 def callJob(Map params) {
     echo "${params}"
     build job: "${params.jobName}", parameters: [
-              string(name: "remoteHost", value: "${params.remoteHost}"),
-              string(name: "imagenVersion", value:"${params.imageVersion}")
+              string(name: "remoteHost", value: params.remoteHost),
+              string(name: "imagenVersion", value: params.imageVersion)
             ]
 }
