@@ -13,15 +13,12 @@ def initial(String remoteHost){
     } 
     return remoteH;
 }
+
 def dockerVersionContainer(Map params) {
     def remoteH = initial(params.remoteHost);
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
     def imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
     imageVersion = imageVersion.split(":")[1]
-    echo "${imageVersion}"
-    echo "${params.imageVersion}"
-    def valor = imageVersion == params.imageVersion
-    echo "${valor}"
     return  imageVersion == params.imageVersion;
 }
 
