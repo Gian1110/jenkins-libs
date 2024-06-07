@@ -14,19 +14,6 @@ def initial(String remoteHost){
     return remoteH;
 }
 
-def checkoutBranch(Map params) {
-    def releaseBranch = "release/v"+params.imagenVersion
-    
-    checkout([$class: 'GitSCM', 
-                branches: [[name: releaseBranch]], 
-                doGenerateSubmoduleConfigurations: false, 
-                extensions: [], 
-                userRemoteConfigs: [[
-                    url: scm.getUserRemoteConfigs()[0].getUrl()
-                ]]
-    ])
-}
-
 def dockerBuildPush(Map params){
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
     dir (params.path) {
@@ -54,14 +41,4 @@ def dockerRmRun(Map params) {
         sshCommand remote: remoteH, command: "docker rm -f ${params.containerName}"
     }               
     sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
-}
-
-def callJob(Map params) {
-    def jsonData = readJSON file: params.pathJson
-    def imageVersion = jsonData[params.jobName] 
-
-    build job: "${params.jobName}", parameters: [
-              string(name: "remoteHost", value: params.remoteHost),
-              string(name: "imagenVersion", value: imageVersion)
-            ]
 }
