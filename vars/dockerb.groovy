@@ -15,9 +15,10 @@ def initial(String remoteHost){
 }
 
 def dockerVersionContainer(Map params) {
+    def imageVersion = ""
     try{
         def remoteH = initial(params.remoteHost)
-        def imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
+        imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
         imageVersion = imageVersion.split(":")[2]
     } catch(Exception e) {
         echo "${e}"
