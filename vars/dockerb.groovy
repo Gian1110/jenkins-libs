@@ -19,6 +19,10 @@ def dockerVersionContainer(Map params) {
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
     def imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
     imageVersion = imageVersion.split(":")[1]
+    echo "${imageVersion}"
+    echo "${params.imageVersion}"
+    def salida = imageVersion == params.imageVersion;
+    echo "${salida}"
     return  imageVersion == params.imageVersion;
 }
 
