@@ -57,9 +57,11 @@ def dockerRmRun(Map params) {
 }
 
 def callJob(Map params) {
-    echo "${params}"
+    def jsonData = readJSON file: params.pathJson
+    def imageVersion = jsonData[job1] 
+
     build job: "${params.jobName}", parameters: [
               string(name: "remoteHost", value: params.remoteHost),
-              string(name: "imagenVersion", value: params.imageVersion)
+              string(name: "imagenVersion", value: imageVersion)
             ]
 }
