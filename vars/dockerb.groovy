@@ -15,15 +15,15 @@ def initial(String remoteHost){
 }
 
 def dockerVersionContainer(Map params) {
-    def remoteH = initial(params.remoteHost);
-    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-    def imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
-    imageVersion = imageVersion.split(":")[2]
-    echo "${imageVersion}"
-    echo "${params.imagenVersion}"
-    def salida = imageVersion == params.imagenVersion;
-    echo "${salida}"
-    return  imageVersion == params.imagenVersion;
+    try {
+
+        def remoteH = initial(params.remoteHost)
+        def imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
+        imageVersion = imageVersion.split(":")[2]
+    }catch (Exception e) {
+        echo "error ${e}"
+    }
+    return  imageVersion == params.imagenVersion
 }
 
 def dockerBuildPush(Map params){
@@ -34,7 +34,7 @@ def dockerBuildPush(Map params){
     sh """
         docker push ${nameImage}
         docker rmi ${nameImage}
-      """                     
+      """
 }
 
 def dockerPull(Map params){
