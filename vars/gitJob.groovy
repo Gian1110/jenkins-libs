@@ -20,3 +20,23 @@ def callJob(Map params) {
               string(name: "imagenVersion", value: imageVersion)
             ]
 }
+
+def editPush(Map params) {
+    def releaseVersion = params.releaseVersion
+    def pathJson = params.pathJson
+    def jsonData = readJSON file: params.pathJson
+    echo "antes del cambio ${jsonData}"
+    sh """
+    sed -i 's#"picking":"[0-9.]*"#"picking":"${params.pickingVersion}"#' ${pathJson}
+    sed -i 's#"cac":"[0-9.]*"#"cac":"${params.cacVersion}"#' ${pathJson}
+    sed -i 's#"checkout":"[0-9.]*"#"checkout":"${params.checkoutVersion}"#' ${pathJson}
+    sed -i 's#"hub":"[0-9.]*"#"hub":"${params.hubVersion}"#' ${pathJson}
+    sed -i 's#"login":"[0-9.]*"#"login":"${params.loginVersion}"#' ${pathJson}
+    sed -i 's#"tools":"[0-9.]*"#"tools":"${params.toolsVersion}"#' ${pathJson}
+    sed -i 's#"facturacion":"[0-9.]*"#"facturacion":"${params.facturacionVersion}"#' ${pathJson}
+    sed -i 's#"printer":"[0-9.]*"#"printer":"${params.printerVersion}"#' ${pathJson}
+    sed -i 's#"front":"[0-9.]*"#"front":"${params.frontVersion}"#' ${pathJson}
+    """
+    def jsonData = readJSON file: params.pathJson
+    echo "despues del cambio ${jsonData}"
+}
