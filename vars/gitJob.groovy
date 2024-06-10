@@ -21,7 +21,7 @@ def callJob(Map params) {
             ]
 }
 
-def editPushs(Map params) {
+def editPush(Map params) {
     def releaseVersion = params.releaseVersion
     def pathJson = params.pathJson
     //edit
