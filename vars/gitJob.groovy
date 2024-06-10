@@ -37,6 +37,6 @@ def editPush(Map params) {
     sed -i 's#"printer":"[0-9.]*"#"printer":"${params.printerVersion}"#' ${pathJson}
     sed -i 's#"front":"[0-9.]*"#"front":"${params.frontVersion}"#' ${pathJson}
     """
-    def jsonData = readJSON file: params.pathJson
+    jsonData = readJSON file: params.pathJson
     echo "despues del cambio ${jsonData}"
 }
