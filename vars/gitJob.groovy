@@ -37,7 +37,7 @@ def editPush(Map params) {
         sed -i 's#"front":"[0-9.]*"#"front":"${params.frontVersion}"#' ${pathJson}
     """
     //git push
-   def GIT_CREDENTIALS = credentials('git-token')
+   def GIT_CREDENTIALS = 'git-token'
    def salida = ""
     withCredentials([string(credentialsId: GIT_CREDENTIALS, variable: 'GIT_TOKEN')]) {
                     salida = "https://${GIT_TOKEN}@github.com/Gian1110/jenkins.git"
