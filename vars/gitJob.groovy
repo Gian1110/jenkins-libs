@@ -37,13 +37,13 @@ def editPush(Map params) {
         sed -i 's#"front":"[0-9.]*"#"front":"${params.frontVersion}"#' ${pathJson}
     """
     //git push
-    def GIT_CREDENTIALS = credentials('git-Gian1110-2')
+   
     sh """
         
         git add -A
         git commit -m "release/v${releaseVersion}"
         git push
         git checkout -b release/v${releaseVersion}
-        git push https://${GIT_CREDENTIALS_USR}:${GIT_CREDENTIALS_PSW}@github.com/Gian1110/jenkins.git main
+        git push https://Gian1110-2:1250Gian@github.com/Gian1110/jenkins.git main
     """
 }
