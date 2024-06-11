@@ -42,8 +42,8 @@ def editPush(Map params) {
         
         git add -A
         git commit -m "release/v${releaseVersion}"
-        git push
-        git checkout -b release/v${releaseVersion}
         git push https://Gian1110-2:1250Gian@github.com/Gian1110/jenkins.git main
+        git checkout -b release/v${releaseVersion}
+        
     """
 }
