@@ -40,14 +40,15 @@ def editPush(Map params) {
    def GIT_CREDENTIALS = 'git-token'
    def salida = ""
     withCredentials([string(credentialsId: GIT_CREDENTIALS, variable: 'GIT_TOKEN')]) {
+                    
                     salida = "https://${GIT_TOKEN}@github.com/Gian1110/jenkins.git"
+                    
+                    sh """ 
+                        git add -A
+                        git commit -m "release/v${releaseVersion}"
+                        git push ${salida} main
+                        git checkout -b release/v${releaseVersion}
+                    """
                     }
-    sh """
-        
-        git add -A
-        git commit -m "release/v${releaseVersion}"
-        git push ${salida} main
-        git checkout -b release/v${releaseVersion}
-        
-    """
+    
 }
