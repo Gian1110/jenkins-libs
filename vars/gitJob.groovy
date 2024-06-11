@@ -45,8 +45,8 @@ def editPush(Map params) {
                     
                     sh """ 
                         git add -A
-                        git commit -m "release/v${releaseVersion}"
-                        git push ${salida}
+                        git commit -m "release/v${releaseVersion}" 
+                        git push ${salida} main
                         git checkout -b release/v${releaseVersion}
                         git push ${salida}
                     """
