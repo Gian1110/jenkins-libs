@@ -13,4 +13,8 @@ public class ConfigJenkins {
     public static String getImagenRegistry(String nameContainer,String versionImagen){
         return registryURL+"/"+nameContainer+":"+versionImagen;
     }
+
+     public static String getImagenRegistrywithout(String nameContainer){
+        return registryURL+"/"+nameContainer;
+    }
 }

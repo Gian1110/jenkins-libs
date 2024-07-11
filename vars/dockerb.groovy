@@ -61,7 +61,31 @@ def dockerRmRun(Map params) {
         if (DOCKER_EXIST != ''){
             sshCommand remote: remoteH, command: "docker rm -f ${params.containerName}"
         }               
-        sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} ${nameImage}"
+        sshCommand remote: remoteH, command: "docker run -d -p ${params.containerPuert}:80 --name ${params.containerName} --hostname ${params.containerName} ${nameImage}"
+    } catch(Exception e) {
+        echo "${e}"
+    }   
+}
+
+def dockerCompose(Map params) {
+    try{
+        def remoteH = initial(params.remoteHost);
+        sshCommand remote: remoteH, command: "docker-compose down"               
+        sshCommand remote: remoteH, command: "docker-compose up"
+        
+    } catch(Exception e) {
+        echo "${e}"
+    }   
+}
+
+def dockerEditYaml(Map params) {
+    try{
+        def jsonData = readJSON file: params.pathJson
+        def imageVersion = jsonData[params.jobName]
+        def nameImage = ConfigJenkins.getImagenRegistry(params.jobName,params.imageVersion);
+        def nameImagenWithout = ConfigJenkins.getImagenRegistrywithout(params.jobName);
+        sshCommand remote: remoteH, command: "sed -i 's/image: ${nameImagenWithout}:[^ ]*/image: ${nameImage}/' ${params.pathYaml}"
+        
     } catch(Exception e) {
         echo "${e}"
     }   
