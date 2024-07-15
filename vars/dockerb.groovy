@@ -75,7 +75,7 @@ def dockerCompose(Map params) {
         if (DOCKER_EXIST != ''){
             sshCommand remote: remoteH, command: "docker compose -f ${params.pathYaml} down"
         }               
-        sshCommand remote: remoteH, command: "docker compose -f ${params.pathYaml} -d up"
+        sshCommand remote: remoteH, command: "docker compose -f ${params.pathYaml} up -d"
         
     } catch(Exception e) {
         echo "${e}"
