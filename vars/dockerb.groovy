@@ -70,6 +70,7 @@ def dockerRmRun(Map params) {
 def dockerCompose(Map params) {
     try{
         def remoteH = initial(params.remoteHost);
+        echo "${params.pathYaml}"
         sshCommand remote: remoteH, command: "docker compose down -f ${params.pathYaml}"               
         sshCommand remote: remoteH, command: "docker compose up -f ${params.pathYaml} -d"
         
