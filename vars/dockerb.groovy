@@ -70,8 +70,8 @@ def dockerRmRun(Map params) {
 def dockerCompose(Map params) {
     try{
         def remoteH = initial(params.remoteHost);
-        sshCommand remote: remoteH, command: "docker-compose down"               
-        sshCommand remote: remoteH, command: "docker-compose up"
+        sshCommand remote: remoteH, command: "docker compose down -f ${params.pathYaml}"               
+        sshCommand remote: remoteH, command: "docker compose up -f ${params.pathYaml} -d"
         
     } catch(Exception e) {
         echo "${e}"
