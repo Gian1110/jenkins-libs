@@ -80,11 +80,8 @@ def dockerCompose(Map params) {
 
 def dockerEditYaml(Map params) {
     try{
-        def jsonData = readJSON file: params.pathJson
-        def imageVersion = jsonData[params.jobName]
-        def nameImage = ConfigJenkins.getImagenRegistry(params.jobName,params.imageVersion);
-        def nameImagenWithout = ConfigJenkins.getImagenRegistrywithout(params.jobName);
-        sshCommand remote: remoteH, command: "sed -i 's/image: ${nameImagenWithout}:[^ ]*/image: ${nameImage}/' ${params.pathYaml}"
+        def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imageVersion);
+        sshCommand remote: remoteH, command: "sed -i 's/image: [^ ]*/image: ${nameImage}/' ${params.pathYaml}"
         
     } catch(Exception e) {
         echo "${e}"
