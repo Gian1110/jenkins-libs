@@ -70,8 +70,11 @@ def dockerRmRun(Map params) {
 def dockerCompose(Map params) {
     try{
         def remoteH = initial(params.remoteHost);
-        echo "${params.pathYaml}"
-        sshCommand remote: remoteH, command: "docker compose down -f ${params.pathYaml}"               
+        def DOCKER_EXIST = sshCommand remote: remoteH, command: "docker ps -a -q --filter name=${params.containerName}"
+
+        if (DOCKER_EXIST != ''){
+            sshCommand remote: remoteH, command: "docker compose down -f ${params.pathYaml}"
+        }               
         sshCommand remote: remoteH, command: "docker compose up -f ${params.pathYaml} -d"
         
     } catch(Exception e) {
