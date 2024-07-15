@@ -85,7 +85,7 @@ def dockerCompose(Map params) {
 def dockerEditYaml(Map params) {
     try{
         def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-        sshCommand remote: remoteH, command: "sed -i 's/image: [^ ]*/image: ${nameImage}/' ${params.pathYaml}"
+        sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
         
     } catch(Exception e) {
         echo "${e}"
