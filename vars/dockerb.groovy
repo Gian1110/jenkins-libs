@@ -18,7 +18,7 @@ def dockerVersionContainer(Map params) {
     def imageVersion = ""
     def imagenVersion = params.branchName.split("v")
     def remoteH = initial(params.remoteHost)
-    imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
+    imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName} || true"
     echo "${imageVersion}"
     if (imageVersion != '') {
         imageVersion = imageVersion.split(":")[2]
