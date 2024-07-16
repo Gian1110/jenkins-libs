@@ -45,6 +45,7 @@ def dockerBuildPush(Map params){
 def dockerPull(Map params){
     def imagenVersion = params.branchName.split("v")[1]
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
+
     def remoteH = initial(params.remoteHost);
     
     sshCommand remote: remoteH, command: "docker pull ${nameImage}"
@@ -82,6 +83,6 @@ def dockerCompose(Map params) {
 
 def dockerEditYaml(Map params) {
     def imagenVersion = params.branchName.split("v")[1]
-    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
     sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
 }
