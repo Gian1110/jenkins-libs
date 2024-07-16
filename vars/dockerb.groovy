@@ -16,7 +16,7 @@ def initial(String remoteHost){
 
 def dockerVersionContainer(Map params) {
     def imageVersion = ""
-    def imagenVersion = params.branchName.split("v")
+    def imagenVersion = params.branchName.split("v")[1]
     def remoteH = initial(params.remoteHost)
     imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName} || true"
     echo "${imageVersion}"
@@ -25,23 +25,20 @@ def dockerVersionContainer(Map params) {
     }
     
       
-    return  imageVersion == imagenVersion[1]
+    return  imageVersion == imagenVersion
 
 }
 
 def dockerBuildPush(Map params){
-    try{
-        def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-        dir (params.path) {
-            sh " docker build -t ${nameImage} ."
-        }
-        sh """
-            docker push ${nameImage}
-            docker rmi ${nameImage}
-        """
-     } catch(Exception e) {
-        echo "${e}"
-    }  
+    
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    dir (params.path) {
+        sh " docker build -t ${nameImage} ."
+    }
+    sh """
+        docker push ${nameImage}
+        docker rmi ${nameImage}
+    """
 }
 
 def dockerPull(Map params){
