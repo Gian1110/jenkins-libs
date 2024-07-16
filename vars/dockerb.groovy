@@ -30,8 +30,8 @@ def dockerVersionContainer(Map params) {
 }
 
 def dockerBuildPush(Map params){
-    
-    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    def imagenVersion = params.branchName.split("v")[1]
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
     dir (params.path) {
         sh " docker build -t ${nameImage} ."
     }
