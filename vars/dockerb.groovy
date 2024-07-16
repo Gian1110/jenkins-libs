@@ -16,11 +16,12 @@ def initial(String remoteHost){
 
 def dockerVersionContainer(Map params) {
     def imageVersion = ""
+    def imagenVersion = params.branchName.split("v")
     def remoteH = initial(params.remoteHost)
     imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName}"
     imageVersion = imageVersion.split(":")[2]
       
-    return  imageVersion == params.imagenVersion
+    return  imageVersion == imagenVersion[1]
 
 }
 
