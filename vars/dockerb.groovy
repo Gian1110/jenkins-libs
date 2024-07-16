@@ -18,8 +18,8 @@ def dockerVersionContainer(Map params) {
     def imageVersion = ""
     def imagenVersion = params.branchName.split("v")[1]
     def remoteH = initial(params.remoteHost)
+    
     imageVersion = sshCommand remote: remoteH, command: "docker ps -a --format '{{.Image}}'| grep ${params.containerName} || true"
-    echo "${imageVersion}"
     if (imageVersion != '') {
         imageVersion = imageVersion.split(":")[2]
     }
@@ -32,6 +32,7 @@ def dockerVersionContainer(Map params) {
 def dockerBuildPush(Map params){
     def imagenVersion = params.branchName.split("v")[1]
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
+    
     dir (params.path) {
         sh " docker build -t ${nameImage} ."
     }
@@ -42,13 +43,11 @@ def dockerBuildPush(Map params){
 }
 
 def dockerPull(Map params){
-    try{
-        def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-        def remoteH = initial(params.remoteHost);
-        sshCommand remote: remoteH, command: "docker pull ${nameImage}"
-    } catch(Exception e) {
-        echo "${e}"
-    }
+    def imagenVersion = params.branchName.split("v")[1]
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
+    def remoteH = initial(params.remoteHost);
+    
+    sshCommand remote: remoteH, command: "docker pull ${nameImage}"
 }
 
 def dockerRmRun(Map params) {
@@ -82,11 +81,7 @@ def dockerCompose(Map params) {
 }
 
 def dockerEditYaml(Map params) {
-    try{
-        def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
-        sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
-        
-    } catch(Exception e) {
-        echo "${e}"
-    }   
+    def imagenVersion = params.branchName.split("v")[1]
+    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,params.imagenVersion);
+    sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
 }
