@@ -20,6 +20,9 @@ spec:
       limits:
         memory: "1024Mi"
         cpu: "1000m"
+    env:
+    - name: JENKINS_URL
+      value: "http://jenkins-service-cip.devops-tools-ns.svc.cluster.local:8080/"
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug
     imagePullPolicy: IfNotPresent
