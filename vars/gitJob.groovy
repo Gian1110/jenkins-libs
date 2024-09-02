@@ -12,12 +12,10 @@ def checkoutBranch(Map params) {
 }
 
 def callJob(Map params) {
-    def jsonData = readJSON file: params.pathJson
-    def imageVersion = jsonData[params.jobName] 
 
     build job: "${params.jobName}", parameters: [
               string(name: "remoteHost", value: params.remoteHost),
-              string(name: "imagenVersion", value: imageVersion)
+              string(name: "imagenVersion", value: params.tag)
             ]
 }
 
