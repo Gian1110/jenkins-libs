@@ -11,8 +11,6 @@ spec:
   - name: jnlp
     image: jenkins/inbound-agent:latest
     imagePullPolicy: IfNotPresent
-    securityContext:
-      privileged: true
     resources:
       requests:
         memory: "512Mi"
