@@ -57,7 +57,7 @@ def cleanImagenSsh(Map params) {
     
     // Obtener las imágenes en uso y unificarlas en una sola línea separada por saltos de línea
     def usedImages = sshCommand remote: remoteH, command: """
-    docker ps | grep ${params.imagen} | awk '{print \$2}' | tr '\\n' ',' | sed 's/,$//'
+    docker ps | grep ${params.imagen} | awk '{print \\\$2}' | tr '\\n' ',' | sed 's/,$//'
     """
     echo "${usedImages}"
     // Eliminar las imágenes que no están en uso
