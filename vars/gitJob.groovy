@@ -59,7 +59,7 @@ def cleanImagenSsh(Map params) {
     def usedImages = sshCommand remote: remoteH, command: """
     docker ps | grep ${params.imagen} | awk '{print \$2}'  | tr '\\n' ','
     """
-    echo "${usedImages.trim().replaceAll(",", "\\n")}"
+    echo "${usedImages.trim().replaceAll(",", "\n")}"
     // Eliminar las imágenes que no están en uso
     // sshCommand remote: remoteH, command: """
     // docker images --format '{{.Repository}}:{{.Tag}}' | grep 'node' | grep -v -F -f <(echo "${usedImages.trim().replaceAll(",", "\\n")}") | xargs -r docker rmi
