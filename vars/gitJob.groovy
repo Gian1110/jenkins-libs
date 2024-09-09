@@ -60,8 +60,7 @@ def cleanImagenSsh(Map params) {
     docker ps | grep ${params.imagen} | awk '{print \$2}'  | tr '\\n' ','
     """
     echo "${usedImages.trim().replaceAll(",", "\n")}"
-    usedImages = "${usedImages.trim().replaceAll(",", "\n")}"
-    if (usedImages.endsWith("\n")) {
+    if (usedImages.endsWith(",")) {
         usedImages = usedImages.substring(0, usedImages.length() - 1)
     }
     echo "${usedImages}"
