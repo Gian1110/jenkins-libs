@@ -55,12 +55,12 @@ def editPush(Map params) {
 def cleanImagenSsh(Map params) {
     def remoteH = dockerb.initial(params.remoteHost);
     
-    // Obtener las imágenes en uso y unificarlas en una sola línea separada por saltos de línea      | sed 's/,$//'
+    // Obtener las imágenes en uso y unificarlas en una sola línea separada por saltos de línea      sed '${/^$/d;}'
     def usedImages = sshCommand remote: remoteH, command: """
     docker ps | grep ${params.imagen} | awk '{print \$2}'  | tr '\\n' ','
     """
     echo "${usedImages.trim().replaceAll(",", "\n")}"
-    usedImages = "${usedImages.trim().replaceAll(",", "\n")} | sed '${/^$/d;}' | tr -d '\n'"
+    usedImages = "${usedImages.trim().replaceAll(",", "\n")} | tr -d '\n'"
     echo "${usedImages}"
     // Eliminar las imágenes que no están en uso
     // sshCommand remote: remoteH, command: """
