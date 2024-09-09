@@ -63,7 +63,7 @@ def cleanImagenSsh(Map params) {
     if (usedImages.endsWith(",")) {
         usedImages = usedImages.substring(0, usedImages.length() - 1)
     }
-    usedImages = "${usedImages.trim().replaceAll(",", "\\n")}"
+    usedImages = "${usedImages.trim().replaceAll(",", "\\\n")}"
     echo "${usedImages}"
     // Eliminar las imágenes que no están en uso
     sshCommand remote: remoteH, command: """
