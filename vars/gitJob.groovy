@@ -57,7 +57,7 @@ def cleanImagenSsh(Map params) {
     
     // Obtener las imágenes en uso y unificarlas en una sola línea separada por saltos de línea      sed '${/^$/d;}'
     def usedImages = sshCommand remote: remoteH, command: """
-    docker ps | grep ${params.imagen} | awk '{print \$2}'  | tr '\\n' ','
+    docker ps -a | grep ${params.imagen} | awk '{print \$2}'  | tr '\\n' ','
     """
     echo "${usedImages.trim().replaceAll(",", "\n")}"
     if (usedImages.endsWith(",")) {
