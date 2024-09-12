@@ -94,5 +94,9 @@ def createYaml(Map params) {
     echo "crear yaml"
     fileYaml = fileYaml.replace("#name#","${params.containerName}")
     fileYaml = fileYaml.replace("#port#","${params.containerPort}")
+    fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
+    fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
+    fileYaml = fileYaml.replace("#network#","${params.network}")
+
     echo "${fileYaml}"
 }
