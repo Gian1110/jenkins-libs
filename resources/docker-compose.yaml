@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  #name#:
+    image: #imagen#
+    container_name: #name#
+    hostname: #name#
+    ports:
+      - "#port#:#port#"
+    volumes:
+      - #pathLogHost#:#pathLogApp#
+      - #pathAppsettingHost#:/app/appsettings.json
+    networks:
+      - #network#
+    restart: unless-stopped
+
+networks:
+  #network#:
+    external: true

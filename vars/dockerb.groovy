@@ -88,3 +88,10 @@ def dockerEditYaml(Map params) {
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
     sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
 }
+
+def createYaml(Map params) {
+    def fileYaml = libraryResource 'jenkins-agent-pod.yaml';
+    echo "crear yaml"
+    fileYaml = fileYaml.replace("#name#","${params.containerName}")
+    echo "${fileYaml}"
+}
