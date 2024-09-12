@@ -91,6 +91,7 @@ def dockerEditYaml(Map params) {
 
 def createYaml(Map params) {
     def pathYaml = "/home/jenkins/docker-compose.yaml";
+    def remoteH = initial(params.remoteHost);
     def file_exist = sshCommand remote: remoteH, command: "ls ${pathYaml}"
     echo "${file_exist}"
     if (file_exist == '' ) {
