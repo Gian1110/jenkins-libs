@@ -93,5 +93,6 @@ def createYaml(Map params) {
     def fileYaml = libraryResource 'docker-compose.yaml';
     echo "crear yaml"
     fileYaml = fileYaml.replace("#name#","${params.containerName}")
+    fileYaml = fileYaml.replace("#port#","${params.containerPort}")
     echo "${fileYaml}"
 }
