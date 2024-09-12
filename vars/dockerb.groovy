@@ -90,6 +90,12 @@ def dockerEditYaml(Map params) {
 }
 
 def createYaml(Map params) {
+    def pathYaml = "/home/jenkins/docker-compose.yaml";
+    def file_exist = sshCommand remote: remoteH, command: "ls ${pathYaml}"
+    echo "${file_exist}"
+    if (file_exist == '' ) {
+        echo "no existe el archivo"
+    }
     def fileYaml = libraryResource 'docker-compose.yaml';
     echo "crear yaml"
     fileYaml = fileYaml.replace("#name#","${params.containerName}")
@@ -98,6 +104,8 @@ def createYaml(Map params) {
     fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
     fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
     fileYaml = fileYaml.replace("#network#","${params.network}")
-
+    fileYaml = fileYaml.replace('"', '\\"').replace('`', '\\`')
     echo "${fileYaml}"
+    // def remoteH = initial(params.remoteHost);
+    // sshCommand remote: remoteH, command: "echo ${escapedYaml} > ${pathYaml}"
 }
