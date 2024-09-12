@@ -90,7 +90,7 @@ def dockerEditYaml(Map params) {
 }
 
 def createYaml(Map params) {
-    def fileYaml = libraryResource 'jenkins-agent-pod.yaml';
+    def fileYaml = libraryResource 'docker-compose.yaml';
     echo "crear yaml"
     fileYaml = fileYaml.replace("#name#","${params.containerName}")
     echo "${fileYaml}"
