@@ -90,7 +90,7 @@ def dockerEditYaml(Map params) {
 }
 
 def createYaml(Map params) {
-    def pathYaml = "/home/jenkins/docker-compose.yaml";
+    def pathYaml = params.pathYaml;
     def file_exist = '';
     def remoteH = initial(params.remoteHost);
     try {
@@ -111,8 +111,6 @@ def createYaml(Map params) {
         fileYaml = fileYaml.replace("#network#","${params.network}")
         fileYaml = fileYaml.replace('"', '\\"').replace('`', '\\`')
         echo "${fileYaml}"
+        sshCommand remote: remoteH, command: "echo ${fileYaml} > ${pathYaml}"
     }
-    
-    // def remoteH = initial(params.remoteHost);
-    // sshCommand remote: remoteH, command: "echo ${escapedYaml} > ${pathYaml}"
 }
