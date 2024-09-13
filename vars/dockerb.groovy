@@ -84,6 +84,18 @@ def dockerCompose(Map params) {
 }
 
 def dockerEditYaml(Map params) {
+    def paramsexit = [:];
+    paramsexit['remoteHost'] = params.remoteHost
+    paramsexit['pathYaml'] = params.pathYaml
+    paramsexit['containerName'] = params.containerName
+    paramsexit['containerPort'] = params.containerPort
+    paramsexit['containerPortApp'] = params.containerPortApp
+    paramsexit['pathLogHost'] = params.pathLogHost
+    paramsexit['pathLogApp'] = params.pathLogApp
+    paramsexit['pathAppsetting'] = params.pathAppsetting
+    paramsexit['network'] = params.network
+
+    createYaml(paramsexit)
     def imagenVersion = params.branchName.split("v")[1]
     def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
     sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
