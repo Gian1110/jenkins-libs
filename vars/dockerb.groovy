@@ -104,13 +104,45 @@ def createYaml(Map params) {
         echo "no existe yaml, se crear"
         def fileYaml = libraryResource 'docker-compose.yaml';
         fileYaml = fileYaml.replace("#name#","${params.containerName}")
-        fileYaml = fileYaml.replace("#port#","${params.containerPort}")
+        fileYaml = fileYaml.replace("#portHost#","${params.containerPort}")
+        fileYaml = fileYaml.replace("#portApp#","${params.containerPortApp}")
         fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
         fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
         fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
         fileYaml = fileYaml.replace("#network#","${params.network}")
-        // fileYaml = fileYaml.replace('"', '\\"').replace("'", "\\'")
-        echo "${fileYaml}"
+        
         sshCommand remote: remoteH, command: """cat <<EOF > ${pathYaml} \n${fileYaml}\nEOF"""
     }
 }
+
+def existFile(Map params){
+    def path = params.path;
+    def file_exist = '';
+    def remoteH = initial(params.remoteHost);
+    try {
+        sshCommand remote: remoteH, command: "ls ${path}"
+        return true 
+    } catch (Exception e) {
+        return false 
+    }
+    
+}
+
+def directoryTree(Map params){
+    def paramsexit = [:];
+    paramsexit['remoteHost'] = params.remoteHost;
+    paramsexit['path'] = params.pathLogApp;
+    
+    if (!existFile(paramsexit)) {    
+        def remoteH = initial(params.remoteHost);
+        sshCommand remote: remoteH, command: "mkdir -p ${path}"
+    }
+    
+    paramsexit['path'] = params.pathAppsetting;
+    if (existFile(paramsexit)) {    
+        return true
+    }
+    echo "No existe un appsettings en ${params.pathAppsetting} para mapear"
+    return false
+}
+mkdir -p /home/jenkinsuser/tree/logs
