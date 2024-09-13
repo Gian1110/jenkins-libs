@@ -96,8 +96,7 @@ def dockerEditYaml(Map params) {
     paramsexit['network'] = params.network
 
     createYaml(paramsexit)
-    def imagenVersion = params.branchName.split("v")[1]
-    def nameImage = ConfigJenkins.getImagenRegistry(params.containerName,imagenVersion);
+    def nameImage = "prueba:1"
     sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
 }
 
