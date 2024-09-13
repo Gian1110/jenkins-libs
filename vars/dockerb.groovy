@@ -135,7 +135,7 @@ def directoryTree(Map params){
     
     if (!existFile(paramsexit)) {    
         def remoteH = initial(params.remoteHost);
-        sshCommand remote: remoteH, command: "mkdir -p ${path}"
+        sshCommand remote: remoteH, command: "mkdir -p ${params.pathLogApp}"
     }
     
     paramsexit['path'] = params.pathAppsetting;
