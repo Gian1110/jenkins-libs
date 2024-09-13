@@ -6,7 +6,7 @@ services:
     container_name: #name#
     hostname: #name#
     ports:
-      - "#port#:#port#"
+      - "#portHost#:#portApp#"
     volumes:
       - #pathLogHost#:#pathLogApp#
       - #pathAppsettingHost#:/app/appsettings.json

@@ -143,11 +143,12 @@ def directoryTree(Map params){
         sshCommand remote: remoteH, command: "mkdir -p ${params.pathLogApp}"
     }
     
-    paramsexit['path'] = params.pathAppsetting;
+    paramsexit['path'] = "${params.pathAppsetting;}appsettings.json"
     if (existFile(paramsexit)) {    
         return true
     }
+    def remoteH = initial(params.remoteHost);
+    sshCommand remote: remoteH, command: "mkdir -p ${params.pathAppsetting}"
     echo "No existe un appsettings en ${params.pathAppsetting} para mapear"
     return false
 }
-mkdir -p /home/jenkinsuser/tree/logs
