@@ -102,16 +102,11 @@ def dockerEditYaml(Map params) {
 
 def createYaml(Map params) {
     def pathYaml = params.pathYaml;
-    def file_exist = '';
-    def remoteH = initial(params.remoteHost);
-    try {
-        sshCommand remote: remoteH, command: "ls ${pathYaml}"
-        file_exist = "true" 
-    } catch (Exception e) {
-        file_exist = "false" 
-    }
-    echo "${file_exist}"
-    if (file_exist == 'false' ) {
+    def paramsexit = [:];
+    paramsexit['remoteHost'] = params.remoteHost;
+    paramsexit['path'] = params.pathYaml;
+    
+    if (!existFile(paramsexit)) {
         echo "no existe yaml, se crear"
         def fileYaml = libraryResource 'docker-compose.yaml';
         fileYaml = fileYaml.replace("#name#","${params.containerName}")
@@ -128,7 +123,6 @@ def createYaml(Map params) {
 
 def existFile(Map params){
     def path = params.path;
-    def file_exist = '';
     def remoteH = initial(params.remoteHost);
     try {
         sshCommand remote: remoteH, command: "ls ${path}"
