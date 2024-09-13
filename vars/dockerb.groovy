@@ -91,22 +91,28 @@ def dockerEditYaml(Map params) {
 
 def createYaml(Map params) {
     def pathYaml = "/home/jenkins/docker-compose.yaml";
+    def file_exist = '';
     def remoteH = initial(params.remoteHost);
-    def file_exist = sshCommand remote: remoteH, command: "ls ${pathYaml}"
-    echo "${file_exist}"
-    if (file_exist == '' ) {
-        echo "no existe el archivo"
+    try {
+        sshCommand remote: remoteH, command: "ls ${pathYaml}"
+        file_exist = "true" 
+    } catch (Exception e) {
+        file_exist = "false" 
     }
-    def fileYaml = libraryResource 'docker-compose.yaml';
-    echo "crear yaml"
-    fileYaml = fileYaml.replace("#name#","${params.containerName}")
-    fileYaml = fileYaml.replace("#port#","${params.containerPort}")
-    fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
-    fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
-    fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
-    fileYaml = fileYaml.replace("#network#","${params.network}")
-    fileYaml = fileYaml.replace('"', '\\"').replace('`', '\\`')
-    echo "${fileYaml}"
+    echo "${file_exist}"
+    if (file_exist == 'false' ) {
+        echo "no existe yaml, se crear"
+        def fileYaml = libraryResource 'docker-compose.yaml';
+        fileYaml = fileYaml.replace("#name#","${params.containerName}")
+        fileYaml = fileYaml.replace("#port#","${params.containerPort}")
+        fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
+        fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
+        fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
+        fileYaml = fileYaml.replace("#network#","${params.network}")
+        fileYaml = fileYaml.replace('"', '\\"').replace('`', '\\`')
+        echo "${fileYaml}"
+    }
+    
     // def remoteH = initial(params.remoteHost);
     // sshCommand remote: remoteH, command: "echo ${escapedYaml} > ${pathYaml}"
 }
