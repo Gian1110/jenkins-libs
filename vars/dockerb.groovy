@@ -84,41 +84,46 @@ def dockerCompose(Map params) {
 }
 
 def dockerEditYaml(Map params) {
-    def paramsexit = [:];
-    paramsexit['remoteHost'] = params.remoteHost
-    paramsexit['pathYaml'] = params.pathYaml
-    paramsexit['containerName'] = params.containerName
-    paramsexit['containerPort'] = params.containerPort
-    paramsexit['containerPortApp'] = params.containerPortApp
-    paramsexit['pathLogHost'] = params.pathLogHost
-    paramsexit['pathLogApp'] = params.pathLogApp
-    paramsexit['pathAppsetting'] = params.pathAppsetting
-    paramsexit['network'] = params.network
 
-    createYaml(paramsexit)
-    def nameImage = "prueba:1"
-    sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
-}
-
-def createYaml(Map params) {
-    def pathYaml = params.pathYaml;
     def paramsexit = [:];
     paramsexit['remoteHost'] = params.remoteHost;
     paramsexit['path'] = params.pathYaml;
     
     if (!existFile(paramsexit)) {
-        echo "no existe yaml, se crear"
-        def fileYaml = libraryResource 'docker-compose.yaml';
-        fileYaml = fileYaml.replace("#name#","${params.containerName}")
-        fileYaml = fileYaml.replace("#portHost#","${params.containerPort}")
-        fileYaml = fileYaml.replace("#portApp#","${params.containerPortApp}")
-        fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
-        fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
-        fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
-        fileYaml = fileYaml.replace("#network#","${params.network}")
-        
-        sshCommand remote: remoteH, command: """cat <<EOF > ${pathYaml} \n${fileYaml}\nEOF"""
+
+        def paramscreate = [:];
+        paramscreate['remoteHost'] = params.remoteHost
+        paramscreate['pathYaml'] = params.pathYaml
+        paramscreate['containerName'] = params.containerName
+        paramscreate['containerPort'] = params.containerPort
+        paramscreate['containerPortApp'] = params.containerPortApp
+        paramscreate['pathLogHost'] = params.pathLogHost
+        paramscreate['pathLogApp'] = params.pathLogApp
+        paramscreate['pathAppsetting'] = params.pathAppsetting
+        paramscreate['network'] = params.network
+        createYaml(paramscreate)
+
     }
+
+    def nameImage = "prueba:1"
+    sshCommand remote: remoteH, command: "sed -i 's|image: .*|image: ${nameImage}|' ${params.pathYaml}"
+}
+
+def createYaml(Map params) {
+    
+    echo "no existe yaml, se crear"
+    def fileYaml = libraryResource 'docker-compose.yaml';
+    fileYaml = fileYaml.replace("#name#","${params.containerName}")
+    fileYaml = fileYaml.replace("#portHost#","${params.containerPort}")
+    fileYaml = fileYaml.replace("#portApp#","${params.containerPortApp}")
+    fileYaml = fileYaml.replace("#pathLogHost#","${params.pathLogHost}")
+    fileYaml = fileYaml.replace("#pathLogApp#","${params.pathLogApp}")
+    fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
+    fileYaml = fileYaml.replace("#network#","${params.network}")
+
+    def remoteH = initial(params.remoteHost);
+    sshCommand remote: remoteH, command: """cat <<EOF > ${params.pathYaml} \n${fileYaml}\nEOF"""
+    
 }
 
 def existFile(Map params){
