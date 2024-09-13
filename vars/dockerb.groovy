@@ -111,10 +111,9 @@ def createYaml(Map params) {
         fileYaml = fileYaml.replace("#network#","${params.network}")
         fileYaml = fileYaml.replace('"', '\\"').replace("'", "\\'")
         echo "${fileYaml}"
-        sshCommand remote: remoteH, command: """
-                                                cat <<EOF > ${pathYaml} 
-                                                ${fileYaml}
-                                                EOF
-                                            """
+        sshCommand remote: remoteH, command: """cat <<EOF > ${pathYaml} 
+        ${fileYaml}
+        EOF
+        """
     }
 }
