@@ -157,7 +157,9 @@ def directoryTree(Map params){
         pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
         pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
     }
-
+    echo "log ${pathLog}"
+    echo "appsettings ${pathAppsetting}"
+    echo "division ${params.division}"
     def paramsexit = [:];
     paramsexit['division'] = params.division;
     paramsexit['path'] = pathLog;
