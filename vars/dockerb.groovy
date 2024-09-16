@@ -151,7 +151,7 @@ def existFile(Map params){
 }
 
 def directoryTree(Map params){
-    def path = params.pathLogApp;
+    def pathLog = params.pathLogApp;
     def pathAppsetting = params.pathAppsetting;
     if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
         pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
