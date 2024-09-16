@@ -84,22 +84,34 @@ def dockerCompose(Map params) {
 }
 
 def dockerEditYaml(Map params) {
+    // si no existe yaml lo crea
+    def pathYaml = params.pathYaml;
+    def containerName = params.containerName;
+    def pathLog = params.pathLogHost;
+    def pathAppsetting = params.pathAppsetting;
+    
+    if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
+        pathYaml = pathYaml.replace("docker-compose.yaml","docker-compose-${params.ambiente}.yaml") 
+        containerName = "${params.containerName}-${params.ambiente}"
+        pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
+        pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
+    }
 
     def paramsexit = [:];
-    paramsexit['remoteHost'] = params.remoteHost;
-    paramsexit['path'] = params.pathYaml;
+    paramsexit['division'] = params.division;
+    paramsexit['path'] = pathYaml;
     
     if (!existFile(paramsexit)) {
 
         def paramscreate = [:];
-        paramscreate['remoteHost'] = params.remoteHost
-        paramscreate['pathYaml'] = params.pathYaml
-        paramscreate['containerName'] = params.containerName
+        paramscreate['division'] = params.division
+        paramscreate['pathYaml'] = pathYaml
+        paramscreate['containerName'] = containerName
         paramscreate['containerPort'] = params.containerPort
         paramscreate['containerPortApp'] = params.containerPortApp
-        paramscreate['pathLogHost'] = params.pathLogHost
+        paramscreate['pathLogHost'] = pathLog
         paramscreate['pathLogApp'] = params.pathLogApp
-        paramscreate['pathAppsetting'] = params.pathAppsetting
+        paramscreate['pathAppsetting'] = pathAppsetting
         paramscreate['network'] = params.network
         createYaml(paramscreate)
 
@@ -139,21 +151,27 @@ def existFile(Map params){
 }
 
 def directoryTree(Map params){
+    def path = params.pathLogApp;
+    if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
+        pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
+        pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
+    }
+
     def paramsexit = [:];
-    paramsexit['remoteHost'] = params.remoteHost;
-    paramsexit['path'] = params.pathLogApp;
-    
+    paramsexit['division'] = params.division;
+    paramsexit['path'] = pathLog;
+
     if (!existFile(paramsexit)) {    
-        def remoteH = initial(params.remoteHost);
-        sshCommand remote: remoteH, command: "mkdir -p ${params.pathLogApp}"
+        def remoteH = initial(params.division);
+        sshCommand remote: remoteH, command: "mkdir -p ${pathLog}"
     }
-    
-    paramsexit['path'] = "${params.pathAppsetting;}appsettings.json"
-    if (existFile(paramsexit)) {    
-        return true
+      
+    paramsexit['path'] = pathAppsetting;
+    if (!existFile(paramsexit)) { 
+        def remoteH = initial(params.division);
+        sshCommand remote: remoteH, command: "mkdir -p ${pathAppsetting}"
+        echo "No existe un appsettings en ${pathAppsetting} para mapear"
+        return false       
     }
-    def remoteH = initial(params.remoteHost);
-    sshCommand remote: remoteH, command: "mkdir -p ${params.pathAppsetting}"
-    echo "No existe un appsettings en ${params.pathAppsetting} para mapear"
-    return false
+    return true
 }
