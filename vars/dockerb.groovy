@@ -89,7 +89,17 @@ def dockerEditYaml(Map params) {
     def containerName = params.containerName;
     def pathLog = params.pathLogHost;
     def pathAppsetting = params.pathAppsetting;
+    def path = pathYaml.replace("docker-compose.yaml","");
     
+    def paramsexit = [:];
+    paramsexit['division'] = params.division;
+    paramsexit['path'] = path;
+    
+    if (!existFile(paramsexit)) {
+        def remoteH = initial(params.division);
+        sshCommand remote: remoteH, command: """mkdir -p ${path}"""
+    }
+
     if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
         pathYaml = pathYaml.replace("docker-compose.yaml","docker-compose-${params.ambiente}.yaml") 
         containerName = "${params.containerName}-${params.ambiente}"
