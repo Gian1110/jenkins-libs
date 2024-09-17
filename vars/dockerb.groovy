@@ -156,8 +156,11 @@ def directoryTree(Map params){
     if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
         pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
         pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
+        echo "entra"
     }
-    
+    echo "${ambiente}"
+    echo "${pathLog}"
+    echo "${pathAppsetting}"
     def paramsexit = [:];
     paramsexit['division'] = params.division;
     paramsexit['path'] = pathLog;
