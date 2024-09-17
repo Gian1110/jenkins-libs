@@ -107,7 +107,6 @@ def dockerEditYaml(Map params) {
         pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
     }
 
-    def paramsexit = [:];
     paramsexit['division'] = params.division;
     paramsexit['path'] = pathYaml;
     
