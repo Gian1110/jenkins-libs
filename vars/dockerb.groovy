@@ -133,14 +133,14 @@ def createYaml(Map params) {
     fileYaml = fileYaml.replace("#pathAppsettingHost#","${params.pathAppsetting}")
     fileYaml = fileYaml.replace("#network#","${params.network}")
 
-    def remoteH = initial(params.remoteHost);
+    def remoteH = initial(params.division);
     sshCommand remote: remoteH, command: """cat <<EOF > ${params.pathYaml} \n${fileYaml}\nEOF"""
     
 }
 
 def existFile(Map params){
     def path = params.path;
-    def remoteH = initial(params.remoteHost);
+    def remoteH = initial(params.division);
     try {
         sshCommand remote: remoteH, command: "ls ${path}"
         return true 
