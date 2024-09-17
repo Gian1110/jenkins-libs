@@ -153,12 +153,16 @@ def existFile(Map params){
 def directoryTree(Map params){
     def pathLog = params.pathLogApp;
     def pathAppsetting = params.pathAppsetting;
+    echo "log entrada ${params.pathLogApp}"
+    echo "appsettings entrada ${params.pathAppsetting}"
+    echo "log seteado ${pathLog}"
+    echo "appsettings seteado ${pathAppsetting}"
     if( params.containsKey("ambiente") && params.ambiente != '' && params.ambiente != 'prod') {
         pathLog = pathLog.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
         pathAppsetting = pathAppsetting.replace("${params.containerName}","${params.containerName}-${params.ambiente}")
     }
-    echo "log ${pathLog}"
-    echo "appsettings ${pathAppsetting}"
+    echo "log pos if ${pathLog}"
+    echo "appsettings pos if${pathAppsetting}"
     echo "division ${params.division}"
     def paramsexit = [:];
     paramsexit['division'] = params.division;
