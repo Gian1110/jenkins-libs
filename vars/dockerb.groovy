@@ -170,7 +170,7 @@ def directoryTree(Map params){
         sshCommand remote: remoteH, command: "mkdir -p ${pathLog}"
     }
       
-    paramsexit['path'] = pathAppsetting;
+    paramsexit['path'] = "${pathAppsetting}appsettings.json";
     if (!existFile(paramsexit)) { 
         def remoteH = initial(params.division);
         sshCommand remote: remoteH, command: "mkdir -p ${pathAppsetting}"
